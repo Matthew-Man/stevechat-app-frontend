@@ -8,45 +8,42 @@ const uuidv4 = require('uuid/v4');
 
 
 export default function App() {
-  let userId = "";
+  let userId: string | null = "";
 
   
   async function save(key: string, value: string) {
     await SecureStore.setItemAsync(key, value);
-    console.log("Save")
   }
   
   async function getValueFor(key: string) {
     let result = await SecureStore.getItemAsync(key);
-    console.log("Hello" + result)
     return result;
   }
 
-  
+
+  // Check if user id exists for user, if not create and save a new one
   useEffect(() => {
     async function checkForUniqueId() {
       if (await getValueFor("uniqueDeviceId") === null) {
-        console.log("Saved")
         const randomId = uuidv4()
-        console.log(randomId)
         save("uniqueDeviceId", randomId)
+        userId = randomId;
+      } else {
+        userId = await getValueFor("uniqueDeviceId")
       }
     }
     checkForUniqueId()
   }, [])
   
-  // console.log(getValueFor("uniqueDeviceId"))
-  //If doesn't exist
-    //Then generate a random one using UUID and store on securestore
-  
 
   return (
     <View style={styles.container}>
       <Text>Open up App.tsx to start working on your app!</Text>
-      <Button title="Device Info" onPress={(e) => console.log("Hi")}/>
+      <Button title="Device Info" onPress={(e) => console.log(`User Id = ${userId}`)}/>
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
