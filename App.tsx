@@ -62,14 +62,15 @@ export default function App() {
         <Text>Open up App.tsx to start working on your app!</Text>
         <Button title="Device Info" onPress={(e) => console.log(`User Id = ${userId}`)}/>
      {/* <ScrollView > */}
+    <View>
     <FlatList
         data={messageHistory}
         renderItem={({item}) => (
-          <MessageDisplay {...item} />
+          <MessageDisplay {...item} userId={userId} />
         )}
         keyExtractor={item => item.messageid.toString()}
       />
- 
+      </View>
 
       
         {/* {messageHistory.map((element, index) => <MessageDisplay {...element} key={index}/>)} */}
@@ -86,6 +87,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
