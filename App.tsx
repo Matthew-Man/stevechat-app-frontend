@@ -59,10 +59,10 @@ export default function App() {
     <SafeAreaView style={styles.container} >
     {/* //  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     //     <View> */}
-        <Text>Open up App.tsx to start working on your app!</Text>
+        <Text style={{fontWeight: 'bold', fontSize: 30}}> Welcome to SteveChat! </Text>
         <Button title="Device Info" onPress={(e) => console.log(`User Id = ${userId}`)}/>
      {/* <ScrollView > */}
-    <View>
+    
     <FlatList
         data={messageHistory}
         renderItem={({item}) => (
@@ -70,7 +70,7 @@ export default function App() {
         )}
         keyExtractor={item => item.messageid.toString()}
       />
-      </View>
+      
 
       
         {/* {messageHistory.map((element, index) => <MessageDisplay {...element} key={index}/>)} */}

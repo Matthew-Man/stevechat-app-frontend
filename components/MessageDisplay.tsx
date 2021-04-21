@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#f9c2ff",
     padding: 20,
     marginVertical: 8,
-    flex: 1,
     width: '100%'
   },
   myMessage: {
