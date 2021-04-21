@@ -1,14 +1,17 @@
 // import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import InputBar from './components/inputBar';
+import {IMessageDisplay, MessageDisplay} from './components/MessageDisplay';
 const uuidv4 = require('uuid/v4');
 
 
 
 
 export default function App() {
+  const startHistory: IMessageDisplay[]=[]
+  const [messageHistory, setMessageHistory] = useState<IMessageDisplay[]>(startHistory)
   let userId: string | null = "";
 
   
@@ -21,6 +24,14 @@ export default function App() {
     return result;
   }
 
+  async function getAllMessages(){
+    try {
+      let res = await fetch("https://stevechat-backend.herokuapp.com/")
+      setMessageHistory(await res.json())
+  } catch(error) {
+    console.log(error)
+  }
+  }
 
   // Check if user id exists for user, if not create and save a new one
   useEffect(() => {
@@ -33,15 +44,19 @@ export default function App() {
         userId = await getValueFor("uniqueDeviceId")
       }
     }
-    checkForUniqueId()
+    checkForUniqueId();
+    getAllMessages();
   }, [])
   
-
+  
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
         <Text>Open up App.tsx to start working on your app!</Text>
         <Button title="Device Info" onPress={(e) => console.log(`User Id = ${userId}`)}/>
+       
+        {messageHistory.map((element, index) => <MessageDisplay {...element} key={index}/>)}
+        
         <InputBar userId={userId}/>
       </View>
     </TouchableWithoutFeedback>
