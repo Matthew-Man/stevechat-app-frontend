@@ -3,9 +3,10 @@ import { StyleSheet, View, TextInput, Button } from "react-native";
 
 interface IInputBar {
     userId: string | null,
+    getAllMessages: () => void
 }
 
-export default function InputBar({ userId }: IInputBar) {
+export default function InputBar({ userId, getAllMessages }: IInputBar) {
     const [messageInput, setMessageInput] = useState("");
 
     async function handleSendMessage() {
@@ -21,7 +22,8 @@ export default function InputBar({ userId }: IInputBar) {
                 "Content-Type": "application/json"
             }
         })
-        setMessageInput("")
+        setMessageInput("");
+        getAllMessages();
         // console.log(res.body)
         return false
     }
