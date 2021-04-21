@@ -2,19 +2,19 @@ import React, { useState } from "react";
 import { StyleSheet, View, TextInput, Button } from "react-native";
 
 interface IInputBar {
-    userId: string,
+    userId: string | null,
 }
 
 export default function InputBar({ userId }: IInputBar) {
     const [messageInput, setMessageInput] = useState("");
 
     async function handleSendMessage() {
-        console.log("Message to send:", messageInput);
+        console.log("Message to send:", messageInput, "; User id:", userId);
         const body = {
-            messageInput: messageInput,
+            messageText: messageInput,
             userId: userId
         }
-        const res = await fetch("https://stevechat-backend.herokuapp.com/", {
+        await fetch("https://stevechat-backend.herokuapp.com/", {
             method: "POST",
             body: JSON.stringify(body),
             headers: {
@@ -22,7 +22,7 @@ export default function InputBar({ userId }: IInputBar) {
             }
         })
         setMessageInput("")
-        console.log(res)
+        // console.log(res.body)
         return false
     }
 
