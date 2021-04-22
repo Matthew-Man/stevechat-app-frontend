@@ -2,22 +2,22 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 export interface IMessageDisplay {
-    messageid: number,
-    messagetext: string,
-    timestamp: string,
-    userid: string,
-    userId: string | null
+  messageid: number,
+  messagetext: string,
+  timestamp: string,
+  userid: string,
+  userId: string | null
 }
 
-export function MessageDisplay({messagetext, timestamp, userid, userId}: IMessageDisplay) {
+export function MessageDisplay({ messagetext, timestamp, userid, userId }: IMessageDisplay) {
   let myMessage: boolean;
   if (userid === userId) {
-      myMessage=true
+    myMessage = true
   }
   else {
-      myMessage=false
+    myMessage = false
   }
-    return (
+  return (
     <View style={[myMessage ? styles.myMessage : styles.message]}>
       <Text style={styles.sender}>{userid}</Text>
       <Text style={styles.text}>{messagetext}</Text>
@@ -28,19 +28,26 @@ export function MessageDisplay({messagetext, timestamp, userid, userId}: IMessag
 
 const styles = StyleSheet.create({
   message: {
-    backgroundColor: "#f9c2ff",
-    padding: 20,
+    backgroundColor: "#f7f7f7",
+    padding: 16,
     marginVertical: 8,
-    width: '100%'
+    margin: 10,
+    width: '80%',
+    borderRadius: 5
   },
   myMessage: {
-    backgroundColor: "#fff",
-    padding: 20,
-    marginVertical: 8
+    backgroundColor: "#AFDEFF",
+    padding: 16,
+    margin: 10,
+    marginVertical: 8,
+    width: '80%',
+    borderRadius: 5,
+    alignSelf: 'flex-end'
   },
   text: {
-    fontSize: 10,
-    margin: 5
+    fontSize: 12,
+    marginTop: 5,
+    marginBottom: 5
   },
   sender: {
     fontSize: 10,

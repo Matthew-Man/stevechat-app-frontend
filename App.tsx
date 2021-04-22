@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, FlatList, Text, View, Button, TouchableWithoutFeedback, SafeAreaView, Keyboard, ScrollView } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import InputBar from './components/inputBar';
-import {IMessageDisplay, MessageDisplay} from './components/MessageDisplay';
+import { IMessageDisplay, MessageDisplay } from './components/MessageDisplay';
 const uuidv4 = require('uuid/v4');
 import {
   useScrollToTop,
@@ -14,27 +14,27 @@ import {
 
 
 export default function App() {
-  const startHistory: IMessageDisplay[]=[]
+  const startHistory: IMessageDisplay[] = []
   const [messageHistory, setMessageHistory] = useState<IMessageDisplay[]>(startHistory)
   const [userId, setUserId] = useState<string | null>("");
 
-  
+
   async function save(key: string, value: string) {
     await SecureStore.setItemAsync(key, value);
   }
-  
+
   async function getValueFor(key: string) {
     let result = await SecureStore.getItemAsync(key);
     return result;
   }
 
-  async function getAllMessages(){
+  async function getAllMessages() {
     try {
       let res = await fetch("https://stevechat-backend.herokuapp.com/")
       setMessageHistory(await res.json())
-  } catch(error) {
-    console.log(error)
-  }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   // Check if user id exists for user, if not create and save a new one
@@ -52,35 +52,36 @@ export default function App() {
     checkForUniqueId();
     getAllMessages();
   }, [])
-  
-  
-  
+
+
+
   return (
     <SafeAreaView style={styles.container} >
-    {/* //  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      {/* //  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     //     <View> */}
-        <Text style={{fontWeight: 'bold', fontSize: 30}}> Welcome to SteveChat! </Text>
-        <Button title="Device Info" onPress={(e) => console.log(`User Id = ${userId}`)}/>
-     {/* <ScrollView > */}
-    
-    <FlatList
+      <Text style={{ fontWeight: 'bold', fontSize: 30, margin: 20 }}> Welcome to SteveChat! </Text>
+      {/* <Button title="Device Info" onPress={(e) => console.log(`User Id = ${userId}`)} /> */}
+      {/* <ScrollView > */}
+
+      <FlatList
         data={messageHistory}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <MessageDisplay {...item} userId={userId} />
         )}
         keyExtractor={item => item.messageid.toString()}
+        style={styles.messages}
       />
-      
 
-      
-        {/* {messageHistory.map((element, index) => <MessageDisplay {...element} key={index}/>)} */}
-        
-        {/* </ScrollView> */}
-        <InputBar userId={userId} getAllMessages={getAllMessages}/>
-        {/* </View>
+
+
+      {/* {messageHistory.map((element, index) => <MessageDisplay {...element} key={index}/>)} */}
+
+      {/* </ScrollView> */}
+      <InputBar userId={userId} getAllMessages={getAllMessages} />
+      {/* </View>
     </TouchableWithoutFeedback> */}
-       </SafeAreaView>
-    
+    </SafeAreaView>
+
   );
 }
 
@@ -89,8 +90,12 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#E1E1E1',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  messages: {
+    backgroundColor: '#fff',
+    width: '100%'
+  }
 });
