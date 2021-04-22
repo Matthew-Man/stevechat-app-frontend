@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TextInput, Button } from "react-native";
+import { Platform } from "react-native";
+import { StyleSheet, View, TextInput, Button, KeyboardAvoidingView } from "react-native";
 
 interface IInputBar {
     userId: string | null,
@@ -29,19 +30,21 @@ export default function InputBar({ userId, getAllMessages }: IInputBar) {
     }
 
     return (
-        <View style={styles.container}>
-            <TextInput
-                onChangeText={setMessageInput}
-                value={messageInput}
-                placeholder="Type here..."
-                style={styles.textInputBox}
-                returnKeyType="send"
-                multiline={true}
-                blurOnSubmit={true}
-                onSubmitEditing={handleSendMessage}
-            />
-            <Button title="Send" onPress={handleSendMessage} />
-        </View>
+        <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+            <View style={styles.container}>
+                <TextInput
+                    onChangeText={setMessageInput}
+                    value={messageInput}
+                    placeholder="Type here..."
+                    style={styles.textInputBox}
+                    returnKeyType="send"
+                    multiline={true}
+                    blurOnSubmit={true}
+                    onSubmitEditing={handleSendMessage}
+                />
+                <Button title="Send" onPress={handleSendMessage} />
+            </View>
+        </KeyboardAvoidingView>
     )
 }
 
